@@ -46,7 +46,7 @@ class SecureHandler extends SessionHandler
      * @param string $session_name
      * @return bool
      */
-    public function open($save_path, $session_name)
+    public function open($save_path, $session_name): bool
     {
         $this->key = $this->getKey('KEY_' . $session_name);
         return parent::open($save_path, $session_name);
@@ -57,7 +57,7 @@ class SecureHandler extends SessionHandler
      *
      * @param string $id
      */
-    public function read($id)
+    public function read($id): string|false
     {
         $data = parent::read($id);
         return empty($data) ? '' : $this->decrypt($data, $this->key);
@@ -69,7 +69,7 @@ class SecureHandler extends SessionHandler
      * @param string $id
      * @param string $data
      */
-    public function write($id, $data)
+    public function write($id, $data): bool
     {
         return parent::write($id, $this->encrypt($data, $this->key));
     }
